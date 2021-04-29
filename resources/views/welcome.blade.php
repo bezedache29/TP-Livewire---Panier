@@ -19,7 +19,7 @@
     </head>
     <body>
         <div class="container">
-
+            Home
         </div>
 
         @livewireScripts
