@@ -15,10 +15,13 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+        @livewireStyles
     </head>
     <body>
         <div class="container">
-            
+
         </div>
+
+        @livewireScripts
     </body>
 </html>
