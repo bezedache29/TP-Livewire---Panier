@@ -18,9 +18,7 @@
         @livewireStyles
     </head>
     <body>
-        <div class="container">
-            Home
-        </div>
+        @livewire('home-panier')
 
         @livewireScripts
     </body>
