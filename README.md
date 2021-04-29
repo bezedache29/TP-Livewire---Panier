@@ -1,5 +1,9 @@
 # Développement d'un module de mise au panier en Laravel / Livewire
 
+## 🔎 Prototype
+
+[https://www.figma.com/embed?embed_host=notion&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FfRSQuBmj5nM2Acn8HXHcGS%2FPrototype-Panier-Laravel-Livewire%3Fpage-id%3D0%253A1%26node-id%3D19%253A844%26viewport%3D-2303%252C266%252C0.7594696283340454%26scaling%3Dcontain](https://www.figma.com/embed?embed_host=notion&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FfRSQuBmj5nM2Acn8HXHcGS%2FPrototype-Panier-Laravel-Livewire%3Fpage-id%3D0%253A1%26node-id%3D19%253A844%26viewport%3D-2303%252C266%252C0.7594696283340454%26scaling%3Dcontain)
+
 ## 👌 Comportements attendus
 
 - Les données produits sont issus de la base de données (photo, titre, prix, description et quantité)
