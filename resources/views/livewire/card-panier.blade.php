@@ -7,7 +7,9 @@
         <p>Stock : {{ $product->stock }}</p>
 
         <div>
-            ici composant btns-units
+            @livewire('btns-units', [
+                'stock' => $product->stock
+            ])
         </div>
     </div>
 </div>
