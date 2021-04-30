@@ -7,9 +7,15 @@
         <p>Stock : {{ $product->stock }}</p>
 
         <div>
-            @livewire('btns-units', [
-                'stock' => $product->stock
-            ])
+
+            @if (!$isItemAdded)
+                <button class="btn btn-primary" wire:click="addItem({{ $product }})">+</button>
+            @else
+                @livewire('btns-units', [
+                    'stock' => $product->stock
+                ])
+            @endif
+            
         </div>
     </div>
 </div>

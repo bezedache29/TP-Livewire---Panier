@@ -9,7 +9,7 @@ class BtnsUnits extends Component
 
     public $stock;
 
-    public $userStock = 0;
+    public $userStock = 1;
     public $outOfStock = false;
 
     public $errorInput = false;
@@ -61,12 +61,13 @@ class BtnsUnits extends Component
 
     public function decrementNumber()
     {
-        if ($this->userStock != 0) {
-            $this->userStock--;
+        $this->userStock--;
 
-            if ($this->userStock < $this->stock) {
-                $this->outOfStock = false;
-            }
+        if ($this->userStock == 0) {
+            $this->emit('closeBtns');
+            
+        } elseif ($this->userStock < $this->stock) {
+            $this->outOfStock = false;
         }
     }
 }
