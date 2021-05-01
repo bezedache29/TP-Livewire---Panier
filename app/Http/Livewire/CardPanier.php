@@ -13,12 +13,13 @@ class CardPanier extends Component
     public $isItemAdded = false;
 
     protected $listeners = [
-        'closeBtns' 
+        'closeBtns'
     ];
 
-    public function addItem(Product $product)
+    public function addProduct(Product $product)
     {
         $this->isItemAdded = true;
+        $this->emit('addItem', $product);
     }
 
     public function closeBtns()

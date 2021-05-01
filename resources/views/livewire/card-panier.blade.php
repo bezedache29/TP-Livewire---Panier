@@ -9,7 +9,7 @@
         <div>
 
             @if (!$isItemAdded)
-                <button class="btn btn-primary" wire:click="addItem({{ $product }})">+</button>
+                <button class="btn btn-primary" wire:click="addProduct({{ $product }})">+</button>
             @else
                 @livewire('btns-units', [
                     'stock' => $product->stock

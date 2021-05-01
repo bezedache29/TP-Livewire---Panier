@@ -17,7 +17,7 @@
 
         @livewireStyles
     </head>
-    <body>
+    <body class="position-relative">
         @livewire('home-panier')
 
         @livewireScripts
