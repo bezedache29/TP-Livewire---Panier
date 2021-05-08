@@ -19,10 +19,4 @@
     @if ($panier)
         @livewire('panier', $panierItems)
     @endif
-    
-    {{-- @dump($panierItems)
-
-    @dump(session('panier'))
-
-    @dump(session('panier.products')) --}}
 </div>
