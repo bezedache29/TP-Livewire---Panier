@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Product;
 use Livewire\Component;
 
 class CardPanier extends Component
@@ -16,21 +15,30 @@ class CardPanier extends Component
         'closeBtns'
     ];
 
-    public function addProduct(Product $product)
+    public function addProduct()
     {
         $this->isItemAdded = true;
-        $this->emit('addItem', $product);
+        $this->emit('addItem', $this->product);
     }
 
-    public function closeBtns()
+    public function closeBtns($id)
     {
-        $this->isItemAdded = false;
+        if ($this->product->id == $id) {
+            $this->isItemAdded = false;
+        }
     }
 
     public function render()
     {
-        return view('livewire.card-panier', [
-            'product' => Product::find($this->product->id)
-        ]);
+
+        if (session()->has('panier.products')) {
+            foreach (session()->get('panier.products') as $product) {
+                if ($product['id'] == $this->product->id) {
+                    $this->isItemAdded = true;
+                }
+            }
+        }
+
+        return view('livewire.card-panier');
     }
 }

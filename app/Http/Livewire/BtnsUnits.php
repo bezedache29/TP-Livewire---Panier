@@ -2,21 +2,62 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Product;
 use Livewire\Component;
 
 class BtnsUnits extends Component
 {
 
-    public $stock;
-
-    public $userStock = 1;
+    public $product;
+    public $userStock = 0;
     public $outOfStock = false;
-
     public $errorInput = false;
 
-    public function render()
+    protected $listeners = [
+        'newUserNumber',
+        'addOneItem',
+        'addUserStock',
+        'changeUserStock',
+        'stockIsOut',
+        'stockIsOn'
+    ];
+
+    public function stockIsOn(Product $product)
     {
-        return view('livewire.btns-units');
+        if ($this->product['id'] == $product->id) {
+            $this->outOfStock = false;
+        }
+    }
+
+    public function stockIsOut(Product $product)
+    {
+        if ($this->product['id'] == $product->id) {
+            $this->outOfStock = true;
+        }
+    }
+
+    public function changeUserStock($value)
+    {
+        $this->userSotck = $value;
+    }
+
+    public function addUserStock(Product $product)
+    {
+        if ($this->product == $product->id) {
+            $this->userStock++;
+        }
+    }
+
+    public function addOneItem(Product $product)
+    {
+        if ($this->product == $product->id) {
+            $this->userStock = 1;
+        }
+    }
+
+    public function newUserNumber($value)
+    {
+        $this->userStock = $value;
     }
 
     // Retourne notre tableau de rules (cela permet de concatener des valeurs)
@@ -26,8 +67,8 @@ class BtnsUnits extends Component
             'userStock' => [
                 'required', 
                 'integer',
-                'min:0',
-                'max:'.$this->stock
+                'min:1',
+                'max:'.$this->product['stock']
             ]
         ];
     }
@@ -38,23 +79,34 @@ class BtnsUnits extends Component
         return [
             'userStock.required' => 'Vous devez saisir un chiffre',
             'userStock.integer' => 'Seul les chiffres sont acceptés',
-            'userStock.min' => 'Le chiffre ne peux pas être négatif',
+            'userStock.min' => 'Le chiffre doit être supérieur à zéro',
             'userStock.max' => 'Pas assez de produits en stock',
         ];
     }
 
     public function updatedUserStock()
     {
-        $this->validateOnly('userStock', $this->getRules());
+        $userNumber = $this->validateOnly('userStock', $this->getRules());
+
+        $userStock = [
+            'id' => $this->product['id'],
+            'userNumber' => $userNumber['userStock']
+        ];
+
+        $this->emit('newUserStock', $userStock);
     }
 
     public function incrementNumber()
     {
-        if ($this->userStock < $this->stock) {
+        if ($this->userStock < $this->product['stock']) {
             $this->userStock++;
 
-            if ($this->stock == $this->userStock) {
+            $this->emit('addAnotherOne', $this->product['id']);
+
+            if ($this->product['stock'] == $this->userStock) {
                 $this->outOfStock = true;
+
+                $this->emit('outOfStock', $this->product['id']);
             }
         }
     }
@@ -64,10 +116,36 @@ class BtnsUnits extends Component
         $this->userStock--;
 
         if ($this->userStock == 0) {
-            $this->emit('closeBtns');
-            
-        } elseif ($this->userStock < $this->stock) {
-            $this->outOfStock = false;
+            $this->emit('closeBtns', $this->product['id']);
         }
+        
+        if ($this->userStock < $this->product['stock']) {
+            $this->outOfStock = false;
+
+            $this->emit('stockOn', $this->product['id']);
+        }
+
+        $this->emit('removeAnotherOne', $this->product['id']);
+    }
+
+    public function render()
+    {
+        if (session()->has('panier.products')) {
+            foreach (session()->get('panier.products') as $product) {
+                if ($this->product['id'] == $product['id']) {
+                    $this->userStock = $product['userNumber'];
+
+                    if (isset($product['outOfStock'])) {
+                        if ($product['outOfStock']) {
+                            $this->outOfStock = true;
+                        } else {
+                            $this->outOfStock = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return view('livewire.btns-units');
     }
 }

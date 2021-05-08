@@ -19,7 +19,7 @@
     </head>
     <body class="position-relative">
         @livewire('home-panier')
-
+        
         @livewireScripts
     </body>
 </html>
