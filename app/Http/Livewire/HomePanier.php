@@ -15,6 +15,7 @@ class HomePanier extends Component
     public $countItems = 0;
     public $panierItems = [];
     public $total = 0;
+    public $addInProgress = false;
 
     protected $paginationTheme = 'bootstrap';
 
