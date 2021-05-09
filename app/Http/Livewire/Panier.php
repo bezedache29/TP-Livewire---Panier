@@ -14,11 +14,13 @@ class Panier extends Component
         'total'
     ];
 
+    // Change la valeur du total
     public function total($value)
     {
         $this->total = $value;
     }
 
+    // Insere les produits dans le panier
     public function panierItems($panierItems)
     {
         $this->panierItems = $panierItems;

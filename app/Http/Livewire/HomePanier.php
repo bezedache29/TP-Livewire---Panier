@@ -28,6 +28,7 @@ class HomePanier extends Component
         'stockOn'
     ];
 
+    // Ajout d'une quantité de produit dans le panier car il y en a en stock + insere de l'info en session
     public function stockOn(Product $product)
     {
         $this->panierItems[$product->id]['outOfStock'] = false;
@@ -45,6 +46,7 @@ class HomePanier extends Component
         $this->emit('stockIsOn', $product->id);
     }
 
+    // Pas d'ajout de quantité de produit dans le panier car pas de stock + insere de l'info en session
     public function outOfStock(Product $product)
     {
         $this->panierItems[$product->id]['outOfStock'] = true;
@@ -62,6 +64,7 @@ class HomePanier extends Component
         $this->emit('stockIsOut', $product->id);
     }
 
+    // Ajout d'une quantité de produit dans le panier + insere en session
     public function newUserStock($userStock)
     {
         $id = $userStock['id'];
@@ -84,11 +87,13 @@ class HomePanier extends Component
         $this->emit('changeUserStock', $userNumber);
     }
 
+    // Increment le nombre total de produits & quantité
     public function incrementCountItems()
     {
         $this->countItems++;
     }
 
+    // Décrement le nombre total de produits & quantité
     public function decrementCountItems()
     {
         if ($this->countItems > 0) {
@@ -96,6 +101,7 @@ class HomePanier extends Component
         }
     }
 
+    // Ajout de la première quantité de produit dans le panier + insere en session
     public function addItem(Product $product)
     {
         $product['userNumber'] = 1;
@@ -126,6 +132,7 @@ class HomePanier extends Component
         session()->put('panier.total', $this->total);
     }
 
+    // Incrémente la quantité de produit dans le panier + insere en session
     public function addAnotherOne(Product $product)
     {
         $this->panierItems[$product->id]['userNumber']++;
@@ -145,11 +152,13 @@ class HomePanier extends Component
         session()->put('panier.items', $this->countItems);
     }
 
+    // Enleve une quantité de produit au panier + insere info en session
     public function removeAnotherOne(Product $product)
     {
 
         $this->panierItems[$product->id]['userNumber']--;
 
+        // Check si la quantité est a 0. Si oui on enleve le produit du panier et de la session
         if ($this->panierItems[$product->id]['userNumber'] == 0) {
             unset($this->panierItems[$product->id]);
 
@@ -184,6 +193,7 @@ class HomePanier extends Component
         
     }
 
+    // Sert a ouvrir ou fermer le panier
     public function togglePanier()
     {
         if ($this->panier) {

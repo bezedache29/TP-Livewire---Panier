@@ -22,6 +22,7 @@ class BtnsUnits extends Component
         'stockIsOn'
     ];
 
+    // S'il y a le produit en stock
     public function stockIsOn(Product $product)
     {
         if ($this->product['id'] == $product->id) {
@@ -29,6 +30,7 @@ class BtnsUnits extends Component
         }
     }
 
+    // S'il n'y a pas le produit en stock
     public function stockIsOut(Product $product)
     {
         if ($this->product['id'] == $product->id) {
@@ -36,11 +38,13 @@ class BtnsUnits extends Component
         }
     }
 
+    // Change la valeur de l'input
     public function changeUserStock($value)
     {
         $this->userSotck = $value;
     }
 
+    // Increment la quantité de produit
     public function addUserStock(Product $product)
     {
         if ($this->product == $product->id) {
@@ -48,6 +52,7 @@ class BtnsUnits extends Component
         }
     }
 
+    // Ajout la première quantité de produit
     public function addOneItem(Product $product)
     {
         if ($this->product == $product->id) {
@@ -55,6 +60,7 @@ class BtnsUnits extends Component
         }
     }
 
+    // Change la valeur de l'input
     public function newUserNumber($value)
     {
         $this->userStock = $value;
@@ -84,6 +90,7 @@ class BtnsUnits extends Component
         ];
     }
 
+    // Check validation de l'input + emit la valeur de l'input
     public function updatedUserStock()
     {
         $userNumber = $this->validateOnly('userStock', $this->getRules());
@@ -96,6 +103,7 @@ class BtnsUnits extends Component
         $this->emit('newUserStock', $userStock);
     }
 
+    // Increment la valeur de l'input + emit de la donnée
     public function incrementNumber()
     {
         if ($this->userStock < $this->product['stock']) {
@@ -111,6 +119,7 @@ class BtnsUnits extends Component
         }
     }
 
+    // Décrement la valeur de l'input + emit de la donnée
     public function decrementNumber()
     {
         $this->userStock--;
